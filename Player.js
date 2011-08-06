@@ -35,9 +35,7 @@ Player.prototype.resume = function () {
 Player.prototype.nextEvent = function () {    
     if (this.running) {
         for (var inst=0; inst<this.drumMachine.getNumDrums(); inst++) {
-            if (this.programator.isNote(inst, this.step)) {
-                this.drumMachine.play(inst);
-            }
+            this.drumMachine.play(inst, this.programator.getNote(inst, this.step));
         }
         
         this.step = (this.step + 1) % 16;

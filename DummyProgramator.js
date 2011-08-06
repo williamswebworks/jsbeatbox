@@ -7,13 +7,16 @@ function DummyProgramator () {
     this.tracks[4] = [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0];
 }
 
-DummyProgramator.prototype.isNote = function (track, step) {
+DummyProgramator.prototype.getNote = function (track, step) {
     if (track >= this.tracks.length) {
-        return false;
+        return 0;
+    }
+    if (!this.tracks[track]) {
+        return 0;
     }
     if (step >= this.tracks[track].length) {
-        return false;
+        return 0;
     }
-    return (this.tracks[track][step] == 1);
+    return (this.tracks[track][step]);
 }
 
