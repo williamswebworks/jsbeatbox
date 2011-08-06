@@ -12,55 +12,23 @@ function DrumMachine () {
         this.drums[i] = document.createElement('audio');
         this.drums[i].src = samples[i];
     }
-};
+}
 
 DrumMachine.prototype.play = function (note) {
     var index = note%this.numDrums;
     this.drums[index].play();
-};
+}
 
-var dm = null;
-var terminate = false;
+DrumMachine.prototype.getNumDrums = function () {
+    return this.numDrums;
+}
+
+var player = null;
+
 function init() {
-    dm = new DrumMachine();
-    loop();
+    var dm = new DrumMachine();
+    var prog = new DummyProgramator();
+    player = new Player(dm, prog, 110, 0);
+    player.play();
 }
 
-function x() {
-    terminate = true;
-}
-
-function p() {
-    terminate = false;
-    loop();
-}
-
-function loop() {
-    var bdrum = [1,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0];
-    var clap =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    var ohh =   [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0];
-    var snare = [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0];
-    for (var i=0; i<clap.length; i++) {
-        setTimeout(function(i) {
-                if (terminate) {
-                    return;
-                }
-                if (bdrum[i]==1) {
-                    dm.play(0);
-                }
-                if (clap[i]==1) {
-                    dm.play(1);
-                }
-                if (ohh[i]==1) {
-                    dm.play(3);
-                }              
-                if (snare[i]==1) {
-                    dm.play(4);
-                }
-                dm.play(2);
-        }, (i+1)*100, [i]);
-    }
-    if (!terminate) {
-        setTimeout(loop, (clap.length)*100);
-    }
-}
